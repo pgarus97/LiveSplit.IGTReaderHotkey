@@ -40,9 +40,6 @@ namespace LiveSplit.UI.Components
             ResetKey = new KeyOrButton(Keys.NumPad0);
 
             // Set bindings.
-            txtIncrement.Text = FormatKey(IncrementKey);
-            txtDecrement.Text = FormatKey(DecrementKey);
-            txtReset.Text = FormatKey(ResetKey);
             txtCounterText.DataBindings.Add("Text", this, "CounterText");
             numInitialValue.DataBindings.Add("Value", this, "InitialValue");
             numIncrement.DataBindings.Add("Value", this, "Increment");
@@ -257,6 +254,10 @@ namespace LiveSplit.UI.Components
         /// </summary>
         private void RegisterHotKeys()
         {
+            txtIncrement.Text = FormatKey(IncrementKey);
+            txtDecrement.Text = FormatKey(DecrementKey);
+            txtReset.Text = FormatKey(ResetKey);
+
             try
             {
                 UnregisterAllHotkeys(Hook);
