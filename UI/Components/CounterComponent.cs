@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using LiveSplit.Model.Input;
+using System.Linq;
 
 namespace LiveSplit.UI.Components
 {
@@ -13,7 +14,7 @@ namespace LiveSplit.UI.Components
         public CounterComponent(LiveSplitState state)
         {
             VerticalHeight = 10;
-            Settings = new CounterComponentSettings();
+            Settings = new CounterComponentSettings(state.Settings.HotkeyProfiles.First().Value.AllowGamepadsAsHotkeys);
             Cache = new GraphicsCache();
             CounterNameLabel = new SimpleLabel();
             Counter = new Counter();

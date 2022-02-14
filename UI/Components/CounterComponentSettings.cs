@@ -14,11 +14,11 @@ namespace LiveSplit.UI.Components
 {
     public partial class CounterComponentSettings : UserControl
     {
-        public CounterComponentSettings()
+        public CounterComponentSettings(bool allowGamepads)
         {
             InitializeComponent();
 
-            Hook = new CompositeHook();
+            Hook = new CompositeHook(allowGamepads);
 
             // Set default values.
             GlobalHotkeysEnabled = false;
