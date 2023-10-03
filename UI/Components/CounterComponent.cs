@@ -6,6 +6,9 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using LiveSplit.Model.Input;
 using System.Linq;
+using System.Speech.Synthesis;
+using System.Threading.Tasks;
+using System.Globalization;
 
 namespace LiveSplit.UI.Components
 {
@@ -58,9 +61,10 @@ namespace LiveSplit.UI.Components
         protected SimpleLabel CounterNameLabel = new SimpleLabel();
         protected SimpleLabel CounterValueLabel = new SimpleLabel();
 
+
         protected Font CounterFont { get; set; }
 
-        private LiveSplitState state;
+        private LiveSplitState state { get; set; }
 
         private void DrawGeneral(Graphics g, Model.LiveSplitState state, float width, float height, LayoutMode mode)
         {
@@ -221,6 +225,18 @@ namespace LiveSplit.UI.Components
                 if (e == Settings.ResetKey)
                 {
                     Counter.Reset();
+                }
+
+                if (e == Settings.ReadTimeKey)
+                {
+                    // Speak the current IGT milliseconds
+                    Task.Factory.StartNew(() =>
+                    {
+                        var synth = new SpeechSynthesizer();
+                        var voices = synth.GetInstalledVoices();
+                        synth.SelectVoiceByHints(VoiceGender.Male, VoiceAge.Adult, 0, new CultureInfo("en-US"));
+                        synth.SpeakAsync("" + state.CurrentTime.GameTime.Value.Milliseconds.ToString());
+                    });
                 }
             }
         }

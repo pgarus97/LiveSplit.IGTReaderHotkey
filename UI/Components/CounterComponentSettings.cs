@@ -38,6 +38,8 @@ namespace LiveSplit.UI.Components
             IncrementKey = new KeyOrButton(Keys.Add);
             DecrementKey = new KeyOrButton(Keys.Subtract);
             ResetKey = new KeyOrButton(Keys.NumPad0);
+            ReadTimeKey = new KeyOrButton(Keys.LMenu); // Set your desired default key for the "ReadTime" hotkey
+
 
             // Set bindings.
             txtCounterText.DataBindings.Add("Text", this, "CounterText");
@@ -92,6 +94,8 @@ namespace LiveSplit.UI.Components
         public KeyOrButton IncrementKey { get; set; }
         public KeyOrButton DecrementKey { get; set; }
         public KeyOrButton ResetKey { get; set; }
+        public KeyOrButton ReadTimeKey { get; set; }
+
 
         public event EventHandler CounterReinitialiseRequired;
         public event EventHandler IncrementUpdateRequired;
@@ -257,6 +261,7 @@ namespace LiveSplit.UI.Components
             txtIncrement.Text = FormatKey(IncrementKey);
             txtDecrement.Text = FormatKey(DecrementKey);
             txtReset.Text = FormatKey(ResetKey);
+            txtReadTime.Text = FormatKey(ReadTimeKey); // Update the corresponding TextBox
 
             try
             {
@@ -265,6 +270,8 @@ namespace LiveSplit.UI.Components
                 Hook.RegisterHotKey(IncrementKey);
                 Hook.RegisterHotKey(DecrementKey);
                 Hook.RegisterHotKey(ResetKey);
+                Hook.RegisterHotKey(ReadTimeKey); // Register the "ReadTimeKey" hotkey
+
             }
             catch (Exception ex)
             {
@@ -366,6 +373,16 @@ namespace LiveSplit.UI.Components
             e.SuppressKeyPress = true;
         }
 
+        private void txtReadTime_Enter(object sender, EventArgs e)
+        {
+            SetHotkeyHandlers((TextBox)sender, x => ReadTimeKey = x);
+        }
+
+        private void txtReadTime_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.SuppressKeyPress = true;
+        }
+
         private void numInitialValue_ValueChanged(object sender, EventArgs e)
         {
             InitialValue = (int)Math.Round(numInitialValue.Value, 0);
@@ -376,6 +393,16 @@ namespace LiveSplit.UI.Components
         {
             Increment = (int)Math.Round(numIncrement.Value, 0);
             IncrementUpdateRequired(this, EventArgs.Empty);
+        }
+
+        private void lblCounterReset_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel4_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
